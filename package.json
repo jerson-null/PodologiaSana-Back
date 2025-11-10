@@ -1,0 +1,38 @@
+{
+  "name": "podologia-sana-project",
+  "version": "0.0.1",
+  "description": "backend del aplicativo movil ",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ashleybayona/podologia-sana.git"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "backend"
+  ],
+  "author": "ashleybayona",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ashleybayona/podologia-sana/issues"
+  },
+  "homepage": "https://github.com/ashleybayona/podologia-sana#readme",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cloudinary": "^1.41.3",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "multer": "^2.0.1",
+    "multer-storage-cloudinary": "^4.0.0",
+    "mysql2": "^3.14.1"
+  },
+  "devDependencies": {
+    "dotenv": "^16.5.0",
+    "nodemon": "^3.1.10"
+  }
+}
