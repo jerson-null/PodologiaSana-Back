@@ -15,43 +15,53 @@ services:
       - key: MYSQL_ROOT_PASSWORD
         value: adminrender
       - key: MYSQL_DATABASE
-        value: podologiasana
-      - key: MYSQL_USER
-        value: podologiasana
-      - key: MYSQL_PASSWORD
-        value: adminrender
-        
-    # 💾 Configuración ESENCIAL: Disco persistente para que los datos no se pierdan
-    disk:
-      name: mysql-data
-      mountPath: /var/lib/mysql # Directorio estándar de datos de MySQL
-      sizeGB: 1 # Tamaño inicial (ajusta si necesitas más)
-    
-    port: 3306
+        services:
+          # --- 1. CONFIGURACIÓN DE LA BASE DE DATOS MYSQL (Servicio Privado) ---
+          - type: pserv # Private Service (no accesible desde internet)
+            name: mysql-db
+            env: docker
+            # Usamos la imagen oficial de MySQL
+            image:
+              url: docker.io/mysql/mysql-server:8.0
+            plan: starter # Plan básico de inicio
 
-    # --- 2. CONFIGURACIÓN DE TU BACKEND (Servicio Web) ---
-  - type: web # Web Service (accesible desde internet)
-    name: mi-backend
-    env: node 
-    # repositorio
-    repo: https://github.com/jerson-null/PodologiaSana-Back
-    region: oregon
-    
-    # instalar dependencias y levantar el servidor
-    buildCommand: npm install
-    startCommand: node server.js
-    
-    # 🔗 Variables para la conexión a MySQL (¡Usando el nombre interno del servicio!)
-    envVars:
-      - key: DB_HOST
-        value: mysql-db     # <-- Nombre del servicio de BD (del paso 1)
-      - key: DB_PORT
-        value: 3306
-      - key: DB_USER
-        value: podologiasana
-      - key: DB_PASSWORD
-        value: adminrender
-      - key: DB_NAME
-        value: podologiasana
-    
-    port: 10000 # El puerto que escucha tu backend
+            # ⚠️ Credenciales de la BD (CÁMBIALAS)
+            envVars:
+              - key: MYSQL_ROOT_PASSWORD
+                value: TU_ROOT_PASSWORD
+              - key: MYSQL_DATABASE
+                value: TU_NOMBRE_BD
+              - key: MYSQL_USER
+                value: TU_USUARIO_BD
+              - key: MYSQL_PASSWORD
+                value: TU_PASSWORD_BD
+
+            # 💾 Configuración ESENCIAL: Disco persistente para que los datos no se pierdan
+            disk:
+              name: mysql-data
+              mountPath: /var/lib/mysql # Directorio estándar de datos de MySQL
+              sizeGB: 1 # Tamaño inicial (ajusta si necesitas más)
+
+          # --- 2. CONFIGURACIÓN DE TU BACKEND (Servicio Web) ---
+          - type: web # Web Service (accesible desde internet)
+            name: podologia-backend
+            env: node # Entorno Node.js
+            # Enlaza a tu repositorio
+            repo: https://github.com/jerson-null/PodologiaSana-Back
+
+            # Comando para instalar dependencias y levantar el servidor
+            buildCommand: npm install
+            startCommand: npm start
+
+            # 🔗 Variables para la conexión a MySQL (¡Usando el nombre interno del servicio!)
+            envVars:
+              - key: DB_HOST
+                value: mysql-db     # <-- Nombre del servicio de BD (del paso 1)
+              - key: DB_PORT
+                value: "3306"
+              - key: DB_USER
+                value: TU_USUARIO_BD
+              - key: DB_PASSWORD
+                value: TU_PASSWORD_BD
+              - key: DB_NAME
+                value: TU_NOMBRE_BD

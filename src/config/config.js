@@ -2,7 +2,8 @@ require('dotenv').config();
 
 module.exports = {
     app: {
-        port: 3000, // puerto del servidor
+        // Usa el puerto proporcionado por el entorno (Render) o 3000 por defecto
+        port: process.env.PORT || 3000,
     },
     mysql: {
         host: process.env.DB_HOST,
