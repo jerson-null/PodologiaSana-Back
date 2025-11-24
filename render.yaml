@@ -51,7 +51,7 @@ services:
 
             # Comando para instalar dependencias y levantar el servidor
             buildCommand: npm install
-            startCommand: node app.js
+            startCommand: npm start
 
             # 🔗 Variables para la conexión a MySQL (¡Usando el nombre interno del servicio!)
             envVars:
