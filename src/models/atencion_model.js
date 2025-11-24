@@ -24,7 +24,7 @@ exports.countAll = async () => {
 
 // Crear atencion
 exports.create = async (data) => { // 16 parametros
-    const query = `CALL sp_crear_atencion(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+    const query = `CALL sp_crear_atencion(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
     const params = [
         data.id_paciente, // ident_paciente
         data.id_cita || null, // Puede ser NULL si no hay cita previa
@@ -39,7 +39,7 @@ exports.create = async (data) => { // 16 parametros
         data.peso || null,
         data.altura || null,
         data.fecha,
-        data.hora,
+        //data.hora,
         JSON.stringify(data.tratamientos), // json
         JSON.stringify(data.afecciones) // json
     ];
